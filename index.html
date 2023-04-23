@@ -1,0 +1,932 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Belajar Database mySQL</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e931448d-b5fe-45d6-a6be-9c4962a82e1b" class="page sans"><header><h1 class="page-title">Belajar Database mySQL</h1></header><div class="page-body"><p id="684e166d-3b13-4a3a-8ef0-e930113659a3" class="">Run SQL : <code>mysql -u root</code></p><h1 id="ebfeaadc-b32e-4fba-9563-0d022f718f59" class="">Database dasar</h1><ol type="1" id="cac5bfdb-ed2e-4b05-9bfe-69be93b8349a" class="numbered-list" start="1"><li>membuat database <p id="d6d441eb-155e-4023-bb33-658d124cfe62" class=""><code>CREATE DATABASE belajar_mysql</code></p></li></ol><ol type="1" id="daa61118-0062-4f87-9c3b-386af0782f02" class="numbered-list" start="2"><li>menghapus database <p id="e4b01296-1e3b-45bc-9565-10c7836de67d" class=""><code>DROP DATABASE belajar_mysql</code></p></li></ol><h2 id="0694af69-74a7-4a56-aa66-93d5aaa85414" class="block-color-teal_background"><strong>Type data pada database</strong></h2><hr id="e682f588-225b-47c7-8d2e-4a89583bdbff"/><h3 id="2a7a884d-80ae-423a-b7d7-55fddf843563" class=""><details open=""><summary>1. Number / integer</summary></details></h3><div class="indented"><ul id="7750843e-f71a-4ebe-9f49-11fd5c7413b5" class="bulleted-list"><li style="list-style-type:disc">INT : angka di bawah 2M</li></ul><ul id="3e3797ec-3e68-46d9-aeea-e1cc09499d3a" class="bulleted-list"><li style="list-style-type:disc">BIGINT : di atas 2M</li></ul><ul id="549b4bdd-8bf7-4699-bfab-37187711fb00" class="bulleted-list"><li style="list-style-type:disc">DECIMAL :<ul id="d0b79537-4e7f-4119-95e8-bba826621ae3" class="bulleted-list"><li style="list-style-type:circle">DECIMAL(5, 2) → panjang number 5, dibelakang koma 2 → 999,99</li></ul></li></ul></div><h3 id="266b2586-bd0d-4965-a962-b3fd5d8e8a11" class=""><details open=""><summary>2. String ( CHAR dan VARCHAR )</summary></details></h3><div class="indented"><ul id="b31107e1-8b35-42fd-977b-1e9adc9dbd6f" class="bulleted-list"><li style="list-style-type:disc">Maksimum char atay varchar adalah 65535 karakter</li></ul><ul id="24d4924b-91cd-4543-a52c-55bf7ad7422d" class="bulleted-list"><li style="list-style-type:disc">berbedaan :<ul id="2c3aa7f5-6ed2-412e-a709-060096dca665" class="bulleted-list"><li style="list-style-type:circle">misal char(4) maka tetap akan di masukkan 4 walaupun kosong → ‘    ‘</li></ul><ul id="d1550f43-600b-4571-8d0e-9d93b6029f8c" class="bulleted-list"><li style="list-style-type:circle">varchar fleksibel terhadap data yang di masukkan</li></ul></li></ul><ul id="cc1b784b-5dfb-4593-b9ee-eca450b5af20" class="bulleted-list"><li style="list-style-type:disc"><strong>TEXT</strong><ul id="e7b04637-6052-4e58-8df9-0a04d2b7a17d" class="bulleted-list"><li style="list-style-type:circle">TINYTEXT max = 255</li></ul><ul id="2e37a5ca-ec09-4162-a552-9d6fbada4686" class="bulleted-list"><li style="list-style-type:circle">TEXT max = 65535</li></ul><ul id="3bb7a943-58d9-4ac0-b07a-27753f7e3fa4" class="bulleted-list"><li style="list-style-type:circle">MEDIUMTEXT max = 16777215</li></ul><ul id="61f34546-d410-407f-952f-3fb7756d726f" class="bulleted-list"><li style="list-style-type:circle">LONGTEXT max = 4294967295</li></ul></li></ul><ul id="dbec9829-6d5d-4c23-8127-147dcc773a84" class="bulleted-list"><li style="list-style-type:disc"><strong>ENUM </strong><ul id="90509ee3-d3cd-42c7-88ba-c4120ba82a9c" class="bulleted-list"><li style="list-style-type:circle">digunakan untuk membuat pilihan</li></ul><ul id="c52922d8-f647-4ebf-98b4-6be33a63b045" class="bulleted-list"><li style="list-style-type:circle">misal : data kelamain → hanya bisa ( ‘pria’ , ‘wanita’ )</li></ul></li></ul></div><h3 id="cb2815f3-2401-4267-b8c3-64e6bbb43e08" class=""><details open=""><summary>3. Data date and time</summary></details></h3><div class="indented"><ul id="34e5eed4-30d0-475c-b260-afa0cbfb1957" class="bulleted-list"><li style="list-style-type:disc">DATE : YYYYY-MM-DD</li></ul><ul id="2f6506e2-65d2-41ad-9f5e-5817695ac119" class="bulleted-list"><li style="list-style-type:disc">DATATIME : tanggal dan waktu → YYYYY-MM-DD HH:MM:SS</li></ul><ul id="e1e8875b-d157-40e8-9632-e4714506fda9" class="bulleted-list"><li style="list-style-type:disc">TIME : waktu</li></ul><ul id="838fd4d0-e917-4df2-b1fb-fa096118f772" class="bulleted-list"><li style="list-style-type:disc">YEAR : tahun</li></ul></div><h3 id="fb1922c8-e791-4ccf-823c-335a9598ed67" class=""><details open=""><summary>4. BOOLEAN</summary></details></h3><div class="indented"><p id="19f04617-96f7-4d48-a003-e2d8ba65150d" class="">type data pengecekan apakah true jika benar dan false jika salah</p></div><h2 id="2993e688-382c-43f7-baff-3bc94c8393c9" class="block-color-teal_background"><strong>Table</strong></h2><hr id="1beb9b88-10f1-4b7f-a6c1-ac70124ad36d"/><ul id="93912c03-0a93-4e02-a982-6acca04a6f8f" class="bulleted-list"><li style="list-style-type:disc"><strong>show engines</strong> → perintah untuk menampilkan jenis engine untuk pengolahan table</li></ul><ul id="a3c9054e-fc91-4072-993f-5262657a30a4" class="bulleted-list"><li style="list-style-type:disc">default menggunkan <strong>inoDB</strong><figure id="8455f740-71ec-4edd-9d0f-d2e8a3894c46" class="image"><a href="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_10.50.19.png"><img style="width:2880px" src="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_10.50.19.png"/></a></figure></li></ul><ul id="5145e98b-b213-4a17-b360-86fff0a91836" class="toggle"><li><details open=""><summary><strong>melihat data table </strong></summary><pre id="01780d17-31d6-4362-bb2d-f8929acae171" class="code"><code>SHOW tables</code></pre></details></li></ul><ul id="ddd12040-51c9-49cd-b03f-b8d216c17411" class="toggle"><li><details open=""><summary><strong>membuat table </strong></summary><pre id="0a8c9d78-8738-4de9-bdb0-18414959b286" class="code"><code>CREATE TABLE barang(
+	id int PRIMARY KEY,
+	nama varchar(100),
+	harga int,
+	jumlah int
+);</code></pre></details></li></ul><ul id="5b23e885-9bbb-4e14-8273-6773e91fe2c0" class="toggle"><li><details open=""><summary><strong>melihat struktur table </strong></summary><pre id="10597f21-901e-4cd3-aa9e-ed9be1513e16" class="code"><code>DESC barang</code></pre><figure id="996df23c-e7b1-4950-92a6-57afae26cf46" class="image"><a href="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_11.01.38.png"><img style="width:1878px" src="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_11.01.38.png"/></a></figure></details></li></ul><ul id="ae217f2b-ace8-4897-8d8a-91261deb30f4" class="toggle"><li><details open=""><summary><strong>mengubah struktur table</strong></summary><ul id="6ea78832-f016-4fda-adbc-12e201b53af5" class="bulleted-list"><li style="list-style-type:disc">menggunakan <strong>ALTER TABLE </strong><pre id="993726a7-87c6-4019-bde7-fd69dd877821" class="code"><code>ALTER TABLE barang 
+ADD COLUMN alamat text; &lt;&lt; mebambah column
+
+ALTER TABLE barang
+DROP COLUMN alamat; &lt;&lt; menghapus column
+
+ALTER TABLE barang
+RENAME COLUMN jumlah TO stock; &lt;&lt; mengubah nama column
+
+ALTER TABLE barang 
+MODIFY nama varchar(50) AFTER stock; &lt;&lt; merubah type data dan posisi
+
+ALTER TABLE barang 
+MODIFY nama varchar(100) FIRST; &lt;&lt; merubah type data dan posisi</code></pre></li></ul></details></li></ul><ul id="31867555-3f31-4b76-a761-a591668b8ce5" class="toggle"><li><details open=""><summary><strong>Null value </strong></summary><p id="cf7c150e-dd66-4404-a1b3-e0e44a455847" class="">adalah nilai default ketika datanya tidak di isi atau boleh tidak diisi, jika ingin kolom tersebut tidak boleh null harus buat not null</p><p id="36fb05d9-8f8e-4717-b2e0-3669de3ed479" class="">misal : </p><pre id="889b5ce1-7baa-4b77-834e-242599940b1f" class="code"><code>CREATE TABLE barang(
+	id int PRIMARY KEY,
+	nama varchar(100) NOT NULL,
+	harga int NOT NULL,
+	jumlah int NOT NULL
+);</code></pre><p id="d73aeed9-f935-4c6e-8708-05986f534652" class="">jika sudah terlanjur bisa menggunakan cara <strong>ALTER TABLE</strong> di atas</p><p id="828d6d84-49d0-4152-8142-93c94d58c849" class="">misal : </p><pre id="eb25025b-0cf8-4c31-a217-69ff970a5a07" class="code"><code>ALTER TABLE barang 
+MODIFY nama varchar(100) NOT NULL; &lt;&lt; merubah type data dan kondisi null</code></pre></details></li></ul><ul id="1c57f7b3-5de9-4afa-b175-94f257242e66" class="toggle"><li><details open=""><summary><strong>memasukkan data default</strong></summary><p id="b9988322-419c-4712-91d5-19fd8424cde1" class="">adalah ketika tidak ada value yang di masukkan pada kolom maka secara otomatis data terisi dengan data defaul yang kita setting</p><p id="8abbdbff-f3c3-4cc4-abb1-05724f3dba65" class="">misal : </p><pre id="8ab5c1db-f361-4c5a-aaec-7482a6b009f5" class="code"><code>CREATE TABLE barang(
+	id int PRIMARY KEY,
+	nama varchar(100) NOT NULL,
+	harga int NOT NULL DEFAULT 0, &lt;&lt; memberi nilai default 0
+	jumlah int NOT NULL DEFAULT 0, &lt;&lt; memberi nilai default 0
+);</code></pre><p id="06771e16-e702-4271-a740-fb8bd985f47e" class="">jika sudah terlanjur, gunakan ALTER TABLE : </p><pre id="c580b51b-fbbc-4c80-8a85-dc0655bb9b01" class="code"><code>ALTER TABLE barang
+MODIFY harga int NOT NULL DEFAULT 0,
+MODIFY stock int NOT NULL DEFAULT 0;</code></pre></details></li></ul><ul id="9773dc1a-de26-42a6-8cf0-8267053541a8" class="toggle"><li><details open=""><summary><strong>Membuat ulang table</strong></summary><p id="44bbd95b-68f6-481d-bfc7-469bef382c18" class="">adalah menghapus seluruh isi table dan di buat ulang strukturnya</p><pre id="f956d537-e29e-43c6-bae2-f509ab3f36f9" class="code"><code>TRUNCET barang</code></pre></details></li></ul><ul id="cfd06f00-2711-441c-b421-bd6ef80879c5" class="toggle"><li><details open=""><summary><strong>Menghapus table</strong></summary><p id="78fbcfda-96d6-4a94-953a-4d8fe79c7835" class="">adalah menghapus table permanen</p><pre id="78199278-1f17-4942-976d-0e2551effddb" class="code"><code>DROP TABLE barang</code></pre></details></li></ul><ul id="aa390199-3ab5-4efb-958f-2c9c0c5b92f1" class="toggle"><li><details open=""><summary><strong>INSERT data</strong></summary><ol type="1" id="bc2d01e7-ef4c-41cf-b36e-cb7f9bf655e1" class="numbered-list" start="1"><li>table harus di buat lebih dahulu</li></ol><ol type="1" id="dffd833e-0bfb-4a84-afc6-d407f1b07248" class="numbered-list" start="2"><li>menyebutkan nama-nama kolom yang akan diisi, jika tidak disebutkan maka otomatis akan di isi secara otomatis dengan nilai default</li></ol><ol type="1" id="f73d7fbf-91ab-4d67-83a4-02ca00f38c31" class="numbered-list" start="3"><li>perintah menggunakan <strong>INSERT</strong></li></ol><hr id="b6402ff5-fe05-4af6-8ad3-119e7437026f"/><pre id="d706b973-2e12-4ae3-8744-4c3b1cad1a83" class="code"><code>INSERT INTO products (name, price, quantity)
+VALUES (&#x27;mie ayam original&#x27;, 15000, 100);
+
+SELECT * FROM products; &lt;&lt; melihat isi di dalam table
+
+INSERT INTO products (name, description, price, quantity)
+VALUES (&#x27;mie ayam bakso&#x27;, &#x27;mies ayam + bakso&#x27;, 20000, 100);</code></pre><figure id="3dca37d5-a882-4390-ac47-d3761293d90f" class="image"><a href="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_12.06.40.png"><img style="width:1878px" src="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_12.06.40.png"/></a></figure><p id="f21fe042-3eb3-4204-879d-9eb5dea80150" class=""><strong>memasukkan data lebih dari 1 </strong></p><pre id="bb8c0ec7-f514-43f5-a4ee-93f9690a9de8" class="code"><code>INSERT INTO products (name, price, quantity)
+VALUES 
+(&#x27;mie ayam ceker&#x27;, 20000, 100),
+(&#x27;mie ayam special&#x27;, 25000, 100),
+(&#x27;mie ayam yamin&#x27;, 15000, 100);</code></pre></details></li></ul><ul id="bfe240c1-11c7-47a1-b249-b8874ead3301" class="toggle"><li><details open=""><summary><strong>SELECT DATA</strong></summary><p id="98430d30-834d-4af5-a392-218e15b905cd" class="">untuk mengambil seluruh data atau sebagian di dalam table, menggunakan perintah <strong>SELECT</strong></p><ul id="ab0caa57-0603-436b-9a66-8478e94cfc07" class="bulleted-list"><li style="list-style-type:disc">seluruh data </li></ul><pre id="14e15f0f-f341-4e53-b5ef-1317b4c35977" class="code"><code>SELECT * FROM products; &lt;&lt; pakai bintang *</code></pre><ul id="6f5f5d80-3012-4fa7-8035-68545f81c1f5" class="bulleted-list"><li style="list-style-type:disc">kolom tertentu </li></ul><pre id="e140ad00-26f9-4225-9fb1-07c82a233e80" class="code"><code>SELECT name, price FROM products; &lt;&lt; hanya menampilkan data colum name, price</code></pre></details></li></ul><ul id="d82ce20b-ff0c-4f4e-911d-dbaf72b1d50a" class="toggle"><li><details open=""><summary><strong>PRIMARY KEY</strong></summary><p id="ca92914b-7be8-4295-8d33-e857a9645f90" class="">idealnya setiap table harus memiliki primary key uniq</p><pre id="00834c1a-3fec-4436-b152-6baa5823c3ce" class="code"><code>CREATE TABLE products (
+	id int PRIMARY KEY, &lt;&lt; primary key
+	name varchar(100) NOT NULL,
+	description text,
+	price int UNSIGNED NOT NULL,
+	quantity int UNSIGNED NOT NULL DEFAULT 0,
+	created_at timestamp NOT NULL DEFAULT current_timestamp
+);</code></pre><p id="fd892dca-8170-4d22-b72d-cc39308e8fe9" class="">
+</p></details></li></ul><ul id="379cce9e-7101-45a2-a497-4cf69b4c756f" class="toggle"><li><details open=""><summary><strong>WHERE CLAUSE</strong></summary><p id="0a7a4162-a692-4e42-937e-0e15703e7d28" class="">kondisi dimana kita memfilter data yang ingin ditampilkan</p><pre id="4a5e22e2-5df9-452e-ace9-56e176f0b4db" class="code"><code>SELECT * FROM products WHERE price = 25000; &lt;&lt; hanya tampilkan data price 25000</code></pre></details></li></ul><ul id="b2f42240-e4c7-4999-be11-2c3d14534f13" class="toggle"><li><details open=""><summary><strong>UDATE DATA</strong></summary><p id="64f637fa-1a56-4182-b097-6ad6401720c3" class="">untuk mengubah dan mengapdate data gunakan <strong>UPDATE</strong></p><ul id="bf396b75-bf0b-4301-91c0-4764e59b8d30" class="bulleted-list"><li style="list-style-type:disc">mengubah 1 kolom<pre id="1d9492a5-cc3c-40e0-b50c-2cc6f49bcf68" class="code"><code>UPDATE products &lt;&lt; pilih tablenya
+SET category = &#x27;Makanan&#x27; &lt;&lt; pilih colum dan set data barunya
+WHERE id = 1; &lt;&lt; pilih row yang akan di update, bisa berdasarkan apapun</code></pre></li></ul><ul id="a05ff3a0-3e15-4963-b8e0-0fe7405dd580" class="bulleted-list"><li style="list-style-type:disc">mengubah lebih dari 1 kolom <pre id="af88929f-d76d-4c05-bc6f-dc57d60860d5" class="code"><code>UPDATE products
+SET 
+category = &#x27;Makanan&#x27;,
+description = &#x27;Mie ayam + ceker&#x27;
+WHERE id = 3;</code></pre></li></ul><ul id="ad7c1f29-d917-4017-9076-23fe7e3577aa" class="bulleted-list"><li style="list-style-type:disc">mengubah dengan value di kolom <pre id="276b1296-c504-4098-a998-64278ba79d3b" class="code"><code>UPDATE products &lt;&lt; tablenya apa
+SET 
+price = price + 5000 &lt;&lt; kolomnya apa, di rubah valuenya : bisa mamasukkan operasi matematika apapun
+WHERE price = 20000; &lt;&lt; di mana tampatnya</code></pre><p id="0e1d084b-dace-4d0d-b9e8-efc5f4b002bd" class="">
+</p></li></ul></details></li></ul><ul id="bda48472-bed5-4496-a8ed-ae9a8ca309bc" class="toggle"><li><details open=""><summary><strong>DELETE DATA</strong></summary><p id="fb37d8c9-9236-4ca2-b739-4e23ce1c58d1" class="">harus di pastikan data yang mana akan di hapus agar tidak terjadi kesalahan</p><pre id="66c2eb94-eab6-4954-8cd0-694d229c135f" class="code"><code>DELETE &lt;&lt; perintah hapus
+FROM products &lt;&lt; tablenya
+WHERE price = 15000; &lt;&lt; tempatnya</code></pre><p id="515ddbf4-9ede-4009-bcae-6f322f2d5af9" class="">
+</p></details></li></ul><ul id="1d362cd2-240c-40ec-bc95-78d38ede9179" class="toggle"><li><details open=""><summary><strong>ALIAS</strong></summary><p id="669d0993-8f9a-419a-a373-5664c21a7292" class="">untuk kolom dan table → merubah nama kolom atau table yg kepanjangan, biasanya di gunakan pada join, tambahkan <strong>AS</strong></p><ul id="feaf9f62-bb1f-4e64-89c1-3e1eb9ec9d19" class="bulleted-list"><li style="list-style-type:disc">alias pada kolom<pre id="5774d325-10cf-4990-af24-16a18deafffa" class="code"><code>SELECT 
+id AS &#x27;Kode&#x27;, 
+name AS &#x27;Nama&#x27;, 
+category AS &quot;Kategory&quot;, 
+description AS &quot;Deskripsi&quot;, 
+price AS &#x27;Harga&#x27;, 
+quantity AS &#x27;Jumlah&#x27; 
+FROM products;</code></pre><figure id="dc4edce0-6387-460c-b60b-521ff040da3a" class="image"><a href="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_12.54.12.png"><img style="width:1878px" src="Belajar%20Database%20mySQL%20e931448db5fe45d6a6be9c4962a82e1b/Screen_Shot_2023-04-20_at_12.54.12.png"/></a></figure></li></ul><ul id="a1cfe61b-270a-4123-a3ae-6f9c751f5eb5" class="bulleted-list"><li style="list-style-type:disc">alias pada table <pre id="abe5a62c-95ab-4b12-8b68-e97a14cb51be" class="code"><code>SELECT 
+p.id AS &#x27;Kode&#x27;, 
+p.name AS &#x27;Nama&#x27;, 
+p.category AS &quot;Kategory&quot;, 
+p.description AS &quot;Deskripsi&quot;, 
+p.price AS &#x27;Harga&#x27;, 
+p.quantity AS &#x27;Jumlah&#x27; 
+FROM products AS p;</code></pre></li></ul><p id="77d85c9c-774a-4174-8570-1f6b2043745b" class="">
+</p></details></li></ul><ul id="1f21c064-0d87-4128-bb3a-1ab2e42a2442" class="toggle"><li><details open=""><summary><strong>WHERE OPERATOR</strong></summary><p id="d960891a-f256-40ed-83df-50a636a9a972" class="">melakukan seleksi data berdasarkan operator yang di tentukan</p><pre id="2db95536-1ff3-4b83-9997-5b9eb95b5350" class="code"><code>SELECT * FROM products 
+WHERE price &lt; 5000;</code></pre><pre id="8a4d7451-eba0-4df3-a77a-72f2a3571ff3" class="code"><code>SELECT * FROM products 
+WHERE category != &#x27;Makanan&#x27;;</code></pre><ul id="0ce9441e-d75c-43e3-b423-71020eabaafc" class="bulleted-list"><li style="list-style-type:disc"><strong>END dan OR Operator</strong><ul id="ca267de1-6ba7-4132-90b2-4adc1a6e9163" class="bulleted-list"><li style="list-style-type:circle">END <pre id="20632436-2e97-473d-afe2-e53707c4644a" class="code"><code>SELECT name, category, description, price, quantity
+FROM products
+WHERE price &gt; 20000 AND quantity &gt; 50;</code></pre></li></ul><ul id="953f18ef-fda0-418d-a262-df189ee133cd" class="bulleted-list"><li style="list-style-type:circle">OR <pre id="4ead3916-4e5e-4791-8220-f70887898a8a" class="code"><code>SELECT * FROM products
+WHERE price &lt; 10000 OR quantity &gt; 300</code></pre></li></ul><ul id="d5c50bbc-e9ac-4087-b211-a3d808bfffdf" class="bulleted-list"><li style="list-style-type:circle">prioritas menggunakan () tanda kurung <pre id="a2618008-81f1-42b9-8877-cfe54c3e1aba" class="code"><code>SELECT * FROM products
+WHERE (category = &quot;Minuman&quot; OR price &lt; 15000) AND quantity &gt; 500;</code></pre><p id="acd6d9d0-8fa6-4178-8b87-6f7cdb9f69b1" class="">
+</p></li></ul></li></ul></details></li></ul><ul id="7fb8562c-d910-4cb9-aec9-be66fd57fec5" class="toggle"><li><details open=""><summary><strong>LIKE OPERATOR</strong></summary><p id="12bf85ee-4a74-4a3a-b517-43e863ece631" class="">untuk mencari data :</p><table id="39dfd830-9c4a-4204-acc8-e42e9532ea87" class="simple-table"><thead class="simple-table-header"><tr id="0bdae2ba-10e2-47a9-b015-1c8b12a95d74"><th id="mymY" class="simple-table-header-color simple-table-header" style="width:207px">OPERATOR</th><th id="RcQc" class="simple-table-header-color simple-table-header" style="width:208px">HASIL</th></tr></thead><tbody><tr id="bee1f37f-1ee5-4b8c-828a-76e2654abd8e"><td id="mymY" class="" style="width:207px">LIKE ‘b%’</td><td id="RcQc" class="" style="width:208px">string dengan awalan b</td></tr><tr id="3941f771-fc2e-436b-ae0b-6cedddf1b2bc"><td id="mymY" class="" style="width:207px">LIKE ‘%b’</td><td id="RcQc" class="" style="width:208px">string dengan akhiran b</td></tr><tr id="7a568626-346d-480c-91ae-2005986a2b9e"><td id="mymY" class="" style="width:207px">LIKE ‘%Eko%’</td><td id="RcQc" class="" style="width:208px">string berisi Eko</td></tr><tr id="d328dd78-24b7-4201-8671-f92606a0c81e"><td id="mymY" class="" style="width:207px">NOT LIKE</td><td id="RcQc" class="" style="width:208px">Tidak like</td></tr></tbody></table><pre id="d6f5e472-5465-4d3b-9c90-1742da7a65c0" class="code"><code>SELECT * FROM products
+WHERE name LIKE &#x27;%mie%&#x27;</code></pre><p id="537ad371-21b8-4e65-b3bd-83d88b02c744" class="">jiak data terlalu besar jangan gunakan operator LIKE</p></details></li></ul><ul id="f1db9d58-1dff-4b6f-b469-1cca59798c00" class="toggle"><li><details open=""><summary><strong>NULL OPERATOR</strong></summary><p id="7b725cca-76e3-4520-be6b-a4340973aff1" class="">mencari value yang isinya null</p><pre id="dcf8d52e-72ef-44e3-a2f3-04aed4c70860" class="code"><code>SELECT * FROM products
+WHERE description IS NULL;</code></pre><p id="df4a066f-c6a3-436e-8678-f030111752c1" class="">
+</p></details></li></ul><ul id="47dc250a-ce89-441f-a29b-b421379dd7bf" class="toggle"><li><details open=""><summary><strong>BETWEEN OPERATOR</strong></summary><p id="4c35ca68-fb16-4cd4-a4e9-4fe754aa358d" class="">ingin mencari data di antara :</p><pre id="36f9c6fe-b11e-49f8-a9c3-e41742a3b2aa" class="code"><code>SELECT * FROM products
+WHERE price BETWEEN 20000 AND 25000;</code></pre></details></li></ul><ul id="72dabb27-7036-4eae-9bf6-6daab6c9711d" class="toggle"><li><details open=""><summary><strong>IN OPERATOR</strong></summary><p id="9869bf97-1602-4212-a372-8abc4ed61161" class="">untuk melakukan pencarian sebuh kolom dengan beberapa nilai</p><pre id="f70af677-516d-462e-b2cb-77b9dc1496fe" class="code"><code>SELECT * FROM products
+WHERE category IN (&#x27;Makanan&#x27;, &#x27;Minuman&#x27;);</code></pre><p id="5c9e5fee-2bfc-4fc4-b446-53c33117c6d4" class="">untuk mencari kebalikannya gunakan <strong>NOT IN</strong></p><p id="b4d647b3-a4dc-4366-af3d-2f5c9abeaaf5" class="">
+</p></details></li></ul><ul id="abb2d36f-9529-4175-8786-66b71efd5aed" class="toggle"><li><details open=""><summary><strong>ORDER BY CLUSE</strong></summary><p id="4ee0a5cb-0f1e-4ce9-8463-0987e8056f4d" class="">untuk mengurutkan data, berdasarkan kolom yang dipilih</p><p id="a53c41a5-17e2-48c9-8fcb-aede53631f42" class="">ASC : dari kecil ke besar</p><p id="c9ae8104-e573-4559-8962-2a126caca160" class="">DESC : dari besar ke kecil</p><pre id="cd9715da-b850-465f-97b1-9e501418746f" class="code"><code>SELECT id, name, category, price, quantity FROM products
+ORDER BY price DESC;</code></pre></details></li></ul><ul id="9f4312d9-8418-48f1-8b6a-2f5825433d36" class="toggle"><li><details open=""><summary><strong>LIMIT CLAUSE</strong></summary><p id="2275a970-da08-4cbe-af98-f87ec88f3d42" class="">untuk membatasi data yang di ambil : <strong>LIMIT</strong></p><pre id="6cff417a-422a-4d2d-bd8f-d66f8200a4cf" class="code"><code>SELECT * FROM products
+ORDER BY  id ASC 
+LIMIT 4;</code></pre><ul id="9499e59c-873e-4bad-99e9-f308881e3b89" class="bulleted-list"><li style="list-style-type:disc">skip hasil query <pre id="930db38e-e7db-4717-8400-c99ec571d3f9" class="code"><code>SELECT * FROM products
+ORDER BY id ASC 
+LIMIT 2, 4; &lt;&lt; di skip 2 data</code></pre><p id="13409546-27bb-4b00-a092-2c9cb89f8832" class="">
+</p></li></ul></details></li></ul><ul id="8c529f8d-d4f7-42c8-9356-daa0f5171fa6" class="toggle"><li><details open=""><summary><strong>SELECT DISTINCT DATA</strong></summary><p id="9374e3a6-4598-49cb-822d-4b6f11611c00" class="">untuk menghilngkan data duplikat</p><pre id="afadb99e-25a6-4bbc-9c27-750a2d277a2b" class="code"><code>SELECT DISTINCT category FROM products</code></pre><p id="4cda4d5f-ba6f-4680-a5c1-3e250944d414" class="">
+</p></details></li></ul><ul id="ebcc7d50-34de-4ad1-97b6-0aff8c8d634f" class="toggle"><li><details open=""><summary><strong>NUMERIC FUNCTION</strong></summary><ul id="2d2e52d0-2b47-47f8-9677-a226f9c07597" class="bulleted-list"><li style="list-style-type:disc">menggunakan aritmatika operator <pre id="49298f0f-5715-414f-950f-460a0ef889ee" class="code"><code>SELECT id, name, price DIV 1000 AS &#x27;price in K&#x27;
+FROM products;</code></pre></li></ul><ul id="18f4d9ad-59ef-4a00-ad82-52fad3ebd5f6" class="bulleted-list"><li style="list-style-type:disc">mathematical function <pre id="72b10bac-7cea-4ee8-a5a4-99f469859cfa" class="code"><code>SELECT id, sin(price) FROM products;</code></pre></li></ul></details></li></ul><ul id="c41409bd-8892-4fe5-a656-4fab6dc0b2e4" class="toggle"><li><details open=""><summary><strong>AUTO INCREMENT</strong></summary><ul id="87cd9e59-949e-4cf8-87aa-b638093b3792" class="bulleted-list"><li style="list-style-type:disc">hanya bisa digunakan untuk primary key </li></ul><pre id="7cc7276b-4d82-4fb9-91ae-b07629b5fcdc" class="code"><code>CREATE TABLE Admin (
+	id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	first_name varchar(100) NOT NULL,
+	last_name varchar(100) NOT NULL
+);</code></pre><p id="590ab0a0-7f5d-48d1-8580-24e3f4b57d81" class="">
+</p></details></li></ul><ul id="024106f6-5c5e-4336-8dea-3edc29d32f7c" class="toggle"><li><details open=""><summary><strong>STRING FUNCTION</strong></summary><pre id="dc028a07-2e84-4d19-9045-0a694d1ce0b6" class="code"><code>SELECT id, LOWER(name) AS &#x27;name lower&#x27;, LENGTH (name) AS &#x27;length name&#x27;
+FROM products;</code></pre></details></li></ul><ul id="409cf810-12a9-443d-93ef-110a8d4dd565" class="toggle"><li><details open=""><summary><strong>DATE FUNCTION</strong></summary><p id="bd22e36e-618c-441c-b472-b29edb81d4e3" class="">melakukan format pada type data date</p><pre id="961e5d9c-c0e7-400c-bd95-e288bf302dc7" class="code"><code>SELECT id, YEAR(created_at), MONTH (created_at) FROM products;</code></pre></details></li></ul><ul id="61375c91-9dcd-4d51-b100-db574d53e71c" class="toggle"><li><details open=""><summary><strong>CONTROL FLOW CASE</strong></summary><p id="10f0d67b-6467-4be5-8eb6-582467796479" class="">melakukan IF ELSE sederhana → pengkondisian</p><pre id="6c768a56-9c63-4dcf-94af-f4c717e3bb26" class="code"><code>SELECT id, 
+CASE category 
+	WHEN &#x27;Makanan&#x27; THEN &#x27;Enak&#x27;
+	WHEN &#x27;Minuman&#x27; THEN &#x27;Segar&#x27;
+END AS &#x27;Category&#x27;,
+name
+FROM products;</code></pre></details></li></ul><ul id="2824d362-104e-4558-9b06-97e808b882c0" class="toggle"><li><details open=""><summary><strong>IF FUNCTION</strong></summary><pre id="5eec04c3-608a-4a98-895a-b1f1d1e67006" class="code"><code>SELECT id,
+name,
+price, IF(price &lt;= 10000, &#x27;murah&#x27;, IF(price &lt;= 20000, &#x27;mahal&#x27;, &#x27;mahal banget&#x27;))
+FROM products;</code></pre><ul id="5de272ee-c98e-4374-8350-d4006de5a7b5" class="bulleted-list"><li style="list-style-type:disc">IF NUL </li></ul><pre id="a9fbd9e5-f898-42ea-a0b6-bd1af255d66d" class="code"><code>SELECT id, name,
+IFNULL(description, &#x27;kosong&#x27;)
+FROM products;</code></pre></details></li></ul><ul id="3de9e13d-ad15-4c01-8df3-8e8115a98fae" class="toggle"><li><details open=""><summary><strong>AGREGAT FUNCTION</strong></summary><p id="7afad19a-faf5-4fa1-aa94-48efc95f703e" class="">untuk mencari hal yang paling → paling besar, paling mahal, paling murah, mencari rata-rata dll :</p><pre id="b09dc211-ed09-40c3-9bfc-c3cb4a4a7bfa" class="code"><code>SELECT count(id) AS &#x27;total product&#x27; FROM products;
+
+SELECT max(price) AS &#x27;product termahal&#x27; FROM products;
+
+SELECT min(price) AS &#x27;product termurah&#x27; FROM products;
+
+SELECT AVG(price) AS &#x27;rata-rata harga&#x27; FROM products;
+
+SELECT sum(quantity) &#x27;total stok&#x27; FROM products;</code></pre><ul id="fdb9ab82-708d-4830-8c10-eb42caa82015" class="bulleted-list"><li style="list-style-type:disc">Group by <pre id="47359f1b-1726-4be1-9df2-843443e3d5fe" class="code"><code>SELECT count(id) AS &#x27;total product&#x27;, category 
+FROM products
+GROUP BY category;
+
+SELECT max(price) AS &#x27;product termahal&#x27;, category 
+FROM products
+GROUP BY category;
+
+SELECT min(price) AS &#x27;product termurah&#x27;, category
+FROM products
+GROUP BY category;
+
+SELECT AVG(price) AS &#x27;rata-rata harga&#x27;, category
+FROM products
+GROUP BY category; 
+
+SELECT sum(quantity) &#x27;total stok&#x27;, category 
+FROM products
+GROUP BY category;</code></pre></li></ul><ul id="78159a10-6a00-46ae-b922-fc5d949bb8ec" class="bulleted-list"><li style="list-style-type:disc">Having cluse <pre id="dcb91f5e-efd6-488c-b663-06955b62cfd2" class="code"><code>SELECT count(id) AS total, category 
+FROM products
+GROUP BY category
+HAVING total &gt; 5;</code></pre></li></ul></details></li></ul><ul id="cd48fed7-b3d4-44a3-bda8-3c1acd6233b4" class="toggle"><li><details open=""><summary><strong>CONSTRAIN</strong></summary><ul id="23fc4e94-100b-4ca0-ad79-1d012cf44704" class="bulleted-list"><li style="list-style-type:disc">unique constrain<p id="46b40377-fa95-436a-bc0e-197cfbae37db" class="">memastikan bahawa tidak ada data yg duplikat</p><pre id="f63eb38e-ef65-4975-bdd3-ef73721f2694" class="code"><code>CREATE TABLE customers (
+	id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	email varchar(100) NOT NULL UNIQUE KEY,
+	first_name varchar(100) NOT NULL,
+	last_name varchar(100)
+);
+
+DESC customers;</code></pre><p id="1a6840ff-6708-42be-ab94-413977e6ae98" class="">jika sudah terlanjur :</p><pre id="bebb7524-c38b-4996-aeaa-6fa09e9a1175" class="code"><code>ALTER TABLE customers
+ADD CONSTRAINT unique(email);</code></pre><p id="5168c7fd-1b16-4a3e-bd31-9f45b55d64a6" class="">jika ingin mengahpus constrain :</p><pre id="01ecaad4-3f7f-45b9-a679-421dedb36db5" class="code"><code>ALTER TABLE customers
+DROP CONSTRAINT email;</code></pre><p id="1499ad2d-dd6a-4f67-be81-98d8894b3566" class="">
+</p></li></ul><ul id="639e3854-fc19-4ea3-9b52-b6b862a89654" class="bulleted-list"><li style="list-style-type:disc">check constrain<p id="01824ce8-719c-4bfc-8138-209fbe1d5935" class="">untuk memastikan tidak ada salah input </p><pre id="81d7046e-ffe6-4b6c-9f3e-b5d3c72d5ff2" class="code"><code>ALTER TABLE products
+ADD CONSTRAINT CHECK (price &gt;= 1000);</code></pre><p id="15227121-07ac-44b8-b839-67da0c394aa9" class="">
+</p></li></ul></details></li></ul><ul id="aae02f6e-80d3-44ef-a82f-bcfdf0de957a" class="toggle"><li><details open=""><summary><strong>INDEX</strong></summary><p id="6d8813ba-389d-4945-bafd-7ae237281518" class="">untuk pemudahan pencarian dan pengurutan data</p><p id="e30438da-5984-4a3f-9266-2d5988f4f91d" class="">kita bisa menambahkan index di beberapa kolom sekaliguas sesuai kebutuhan</p><ul id="5c53245a-a197-4a9f-8448-df0f93ae706d" class="bulleted-list"><li style="list-style-type:disc">menambahkan index saat membuat table : <pre id="0907f4f7-97f6-4121-946e-3dee4aafa25f" class="code"><code>CREATE TABLE sellers (
+	id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	name varchar(100) NOT NULL,
+	name2 varchar(100) NOT NULL,
+	name3 varchar(100) NOT NULL,
+	email varchar(100) NOT NULL,
+	UNIQUE KEY email_unique (email),
+	INDEX name1_name2_name3_index (name, name2, name3)
+);</code></pre></li></ul><ul id="3cbfdafc-a7d9-48c5-9648-e974f92e27a3" class="bulleted-list"><li style="list-style-type:disc">jika sudah terlanjur dan ingin menambahkan index <pre id="f1fec017-a120-4db9-a471-28909f95a2da" class="code"><code>ALTER TABLE sellers 
+ADD INDEX name_index (name)</code></pre></li></ul><ul id="55b6d83f-537e-41c9-9992-f1e2fcfe105a" class="bulleted-list"><li style="list-style-type:disc">mengahapus index <pre id="0d6c3f91-25a8-446b-a386-9d0513ba50f7" class="code"><code>ALTER TABLE sellers 
+DROP INDEX name_index</code></pre></li></ul><p id="dff68550-ac68-472c-8f38-a0b26c1dd3bd" class="">
+</p></details></li></ul><ul id="c350f134-e71b-4324-90b0-e30ba3e7695d" class="toggle"><li><details open=""><summary><strong>FULLSTACK SEARCH</strong></summary><p id="2a292e01-4bec-4abd-96b9-d6d614b8af03" class="">untuk mencari sebagian kata di kolom dengan type string lebih cepat daripada <strong>LIKE</strong></p><ul id="7ee19184-9592-41e9-adde-cdba64baa448" class="bulleted-list"><li style="list-style-type:disc">menambahkan <pre id="1cf674c9-4a67-41ca-973b-895e905f5dc5" class="code"><code>ALTER TABLE products
+ADD FULLTEXT product_search (name, description);</code></pre></li></ul><ul id="78fbdb6e-2703-4695-bf68-9961132b3edc" class="bulleted-list"><li style="list-style-type:disc">menghapus <pre id="1c6c1ecf-1886-4b7b-9cdb-0656dfc78987" class="code"><code>ALTER TABLE products
+DROP INDEX product_search</code></pre></li></ul><p id="6cb27600-cf13-42e6-938c-b0cecfdf0b75" class="">
+</p><p id="00249ef8-695a-4e8a-9a83-e960c234db13" class=""><strong>MODE FULLSTACK SEARCH → </strong>link </p><p id="f27ce9eb-ac75-4a72-a3f3-4207ecd539fe" class="">
+</p></details></li></ul><ul id="1b3fd5f9-c4b8-4d2c-8534-fb189dfeaa6f" class="toggle"><li><details open=""><summary><strong>TABLE RELATIOANSHIP</strong></summary><p id="2d350e13-8eaa-477d-9779-fb7aa5f0b65c" class="">membuat relasi antar table</p><p id="7b1e412c-deca-4b16-be83-6a52f628cf89" class="">saat membuat referensi antar table → <strong>foreign key</strong></p><p id="4b574e71-6a51-48cc-9733-2721cad36ccf" class="">bisa membuat 1 atau lebih foreign key </p><pre id="0e2795f6-a3b7-4cdf-a335-cc8d106e03dc" class="code"><code>CREATE TABLE wishlist (
+	id int NOT NULL AUTO_INCREMENT,
+	id_products int NOT NULL,
+	description text,
+	PRIMARY KEY (id),
+	CONSTRAINT fk_wishlist_products
+	FOREIGN KEY (id_products) REFERENCES products(id)
+);</code></pre><ul id="8be993c4-a474-4359-80c7-837d2fa057db" class="bulleted-list"><li style="list-style-type:disc">jika mau di hapus <pre id="fbe9718c-b426-4fb9-aa5a-70dedef6d2ae" class="code"><code>ALTER TABLE wishlist &lt;&lt; pilih table untuk di tambahkan foreign key
+DROP CONSTRAINT fk_wishlist_products; &lt;&lt; pilih bersaarkan nama ref nya</code></pre></li></ul><ul id="0c9c0580-0f39-423b-8f62-4254cce38992" class="bulleted-list"><li style="list-style-type:disc">jika mau di tambahkan <pre id="162028a0-4b09-49e9-b0e7-3796019473f3" class="code"><code>ALTER TABLE wishlist  &lt;&lt; pilih tablenya
+ADD CONSTRAINT fk_wishlist_products &lt;&lt; tambahkan constrain dan ref namanya
+FOREIGN KEY (id_products) REFERENCES products (id); &lt;&lt; pilih kolomnya dan referensikan ke table mananya</code></pre></li></ul><ul id="fd754db9-1c9d-434d-b5c7-b10be1c460f6" class="bulleted-list"><li style="list-style-type:disc">behaviour foreign key <table id="adf40f10-6cba-481c-b138-a842204ef0ad" class="simple-table"><thead class="simple-table-header"><tr id="334aa2d1-f425-4c4b-8935-35652cded2d1"><th id="[&gt;b;" class="simple-table-header-color simple-table-header">Behaviour</th><th id="JmOh" class="simple-table-header-color simple-table-header">onDelete</th><th id="JKLK" class="simple-table-header-color simple-table-header">onUpdate</th></tr></thead><tbody><tr id="2857a6df-5cd1-421e-8b8b-117b4cd6f442"><td id="[&gt;b;" class="">RESTRICT</td><td id="JmOh" class="">di tolak</td><td id="JKLK" class="">di tolak</td></tr><tr id="a8770507-a919-4b11-a1b6-c7b4820e7075"><td id="[&gt;b;" class="">CASCADE</td><td id="JmOh" class="">Data akan di hapus</td><td id="JKLK" class="">Data akan di hapus</td></tr><tr id="b2c397ee-c142-49e9-abdf-751373c3eee5"><td id="[&gt;b;" class="">No ACTION</td><td id="JmOh" class="">Data di biarkan</td><td id="JKLK" class="">Data di biarkan</td></tr><tr id="cdea9e8e-f57b-4018-97ce-5146ba8ef060"><td id="[&gt;b;" class="">SET NULL</td><td id="JmOh" class="">di Ubah jadi null</td><td id="JKLK" class="">di Ubah jadi null</td></tr></tbody></table><p id="1a68d060-0914-4d44-9b23-d3002e05ef8b" class="">
+</p></li></ul></details></li></ul><ul id="a61269d6-2f76-4d79-83c2-a7caa13ee2e1" class="toggle"><li><details open=""><summary><strong>JOIN</strong></summary><p id="b29d5010-590b-4c10-aa42-fe3acbf8ed4a" class="">untuk menyeleksi beberapa table, idelanya dibawah 5 table</p><pre id="997a81cd-f2fe-4bbe-8a78-980553ce97a4" class="code"><code>SELECT * FROM wishlist 
+JOIN products ON (wishlist.id_products = products.id);</code></pre><p id="3b92c12c-bcf4-454a-93fc-cefb7fa40468" class="">
+</p></details></li></ul><ul id="29b68df1-bc91-464d-b967-8c1775dad7f5" class="toggle"><li><details open=""><summary><strong>ONE TO ONE RELATION</strong></summary><p id="e46a5612-83ff-4c99-9687-75ea4645f85a" class="">tiap adata hanya bileh punya 1 data relasi</p><pre id="cad6a906-140f-4a89-abff-6df6bbe0aa55" class="code"><code>CREATE TABLE wallet (
+	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	id_costomers int NOT NULL,
+	balance int NOT NULL DEFAULT 0,
+	UNIQUE KEY id_customer_unique (id_costomers),
+	FOREIGN KEY fk_wallet_customers (id_costomers) REFERENCES customers(id)
+);
+
+SELECT customers.email, wallet.balance
+FROM wallet JOIN customers ON (wallet.id_costomers = customers.id);</code></pre></details></li></ul><ul id="e444723b-bda2-4606-9177-2cb94c5e691f" class="toggle"><li><details open=""><summary><strong>ONE TO MANY</strong></summary><p id="b32ff619-be43-48c1-bae4-5f06873387d5" class="">melakukan relasi 1 ke banyak, misal :</p><p id="49bcc708-2a8c-473f-a55f-406cf515e2b4" class="">1 cotegory memili banyak product</p><pre id="65521991-3d4d-4f63-bc4e-e6bb77c8c745" class="code"><code>CREATE TABLE categories (
+	id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	name varchar(100) NOT NULL
+);
+
+DESC categories;
+DESC products;
+
+DROP TABLE category;
+
+ALTER TABLE products
+
+ALTER TABLE products
+ADD COLUMN id_category int;
+
+ALTER TABLE products
+ADD CONSTRAINT fk_products_categories
+FOREIGN KEY (id_category) REFERENCES categories (id);
+
+SHOW CREATE TABLE products;
+
+INSERT INTO categories(name)
+VALUES
+(&#x27;Makanan&#x27;),(&#x27;Minuman&#x27;), (&#x27;Lain-lain&#x27;);
+
+SELECT * FROM categories;
+
+SELECT * FROM products;
+
+UPDATE products 
+SET id_category = 1
+WHERE id IN (2, 3,4,6,7,9,10,11,12,13);
+
+SELECT products.id, products.name, categories.name
+FROM products
+JOIN categories ON (categories.id = products.id_category);</code></pre></details></li></ul><ul id="fc95c6fb-93ad-41af-a9a4-54c23d353dc3" class="toggle"><li><details open=""><summary><strong>MANY TO MANY</strong></summary><p id="aae4a542-1ac8-4994-9d60-9c61e8c2e125" class="">contohnya : relasi antara product dan penjualan</p><p id="f10568ac-095f-4710-87f3-b88dcb4007f3" class=""><strong>harus membuat table relasi :</strong></p><pre id="3c4f22d2-1927-4f35-9174-e3a1a9d4b7b8" class="code"><code>CREATE TABLE orders (
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	total int NOT NULL,
+	order_date datetime NOT NULL DEFAULT current_timestamp
+);
+
+DESC orders;
+
+CREATE TABLE orders_detail (
+	id_product int NOT NULL PRIMARY KEY,
+	id_order int NOT NULL,
+	price int NOT NULL,
+	quantity int NOT NULL
+);
+
+DESC orders_detail;
+
+ALTER TABLE orders_detail 
+ADD CONSTRAINT fk_orders_detail_products
+FOREIGN KEY (id_product) REFERENCES products(id);
+
+ALTER TABLE orders_detail 
+ADD CONSTRAINT fk_orders_detail_orders
+FOREIGN KEY (id_order) REFERENCES orders(id);
+
+SHOW CREATE TABLE orders_detail;</code></pre></details></li></ul><ul id="cb0e2232-219a-4edf-a819-fea4f31bbe9c" class="toggle"><li><details open=""><summary><strong>TRANSACTION</strong></summary><p id="35c347fa-435a-4b86-9b34-7195bb1384fd" class="">adalah jika pada proses tahapan query terdapat kegagalan, maka seluruh tahapannya akan di hentikan ( rollback )</p><ul id="b593dcb9-3328-476c-bdd4-4a6367e0b8d5" class="bulleted-list"><li style="list-style-type:disc">START TRANSACTION : memulai proses transaksi</li></ul><ul id="4259a950-922b-4d07-ada2-55f76fcebbc8" class="bulleted-list"><li style="list-style-type:disc">COMMIT : menyimpan secara permanent seluruh perintah transaksi</li></ul><ul id="16fb1664-78c5-4d49-8d7e-a85c309f307e" class="bulleted-list"><li style="list-style-type:disc">ROLLBACK : membatalkan secara permanent seluruh transaksi </li></ul><pre id="ce50d659-6f57-4d76-93ef-85c5f26febde" class="code"><code>START TRANSACTION
+
+... fungsi query
+
+COMMIT &lt;&lt; menyimpan data
+
+jika di tengah jalan terjadi masalah maka lakukan :
+
+ROLLBACK;</code></pre></details></li></ul><ul id="31808ce1-2e9c-4bbc-8caa-452b1dd0d426" class="toggle"><li><details open=""><summary><strong>LOCKING</strong></summary><p id="324f7d5c-00d1-4998-ab20-4da73e9ba683" class="">adalah proses penguncian data di DBMS, agar data benar-benar terjamin konsistensinya</p></details></li></ul><p id="8e364a4c-b696-4b58-82e3-c3dfcf14c62b" class="">
+</p><p id="e67ce069-16b8-49f0-8158-a2e1a21a24b0" class="">
+</p></div></article></body></html>
